@@ -8,12 +8,6 @@
 4. Migration: `npx prisma migrate dev`
 5. Start in Dev Mode: `yarn start:dev`
 
-TODO:
-
-- add global config service
-- add pagination for posts
-- exlude user's password
-
 ## API PLAYGROUND
 
 - [Rest Client](./rest/app.rest)
