@@ -1,0 +1,72 @@
+@hostname = http://127.0.0.1
+@port = 3001
+@host = {{hostname}}:{{port}}
+
+
+### SIGN UP
+
+POST {{host}}/auth/signup
+Content-Type: application/json
+
+{
+ "email": "hong@gitplecorp.com",
+ "username": "hong",
+ "password": "12345"
+}
+
+### SIGN IN
+# @name signin
+
+POST {{host}}/auth/signin
+Content-Type: application/json
+
+{
+ "email": "hong@gitplecorp.com",
+ "password": "12345"
+}
+
+### 
+@access-token = {{signin.response.body.$.token.accessToken}}
+
+### USER PROFILE
+
+GET {{host}}/auth/me HTTP/1.1
+Content-Type: application/application/json
+Authorization: Bearer {{access-token}}
+
+
+### CREATE NEW POST
+
+POST {{host}}/blog/post
+Content-Type: application/json
+Authorization: Bearer {{access-token}}
+
+{
+ "title": "dsfdsfdsfsfgfdgf",
+ "body": "Culpa eu culpa laborum eu ea. Pariatur dolore eiusmod sunt cupidatat do voluptate do aliqua culpa mollit. Commodo qui adipisicing laboris anim aute reprehenderit id. Officia do qui tempor sunt voluptate sunt cillum ullamco. Est nisi exercitation sit culpa ea. Duis laboris cillum est proident."
+}
+
+
+### GET POSTS
+
+GET {{host}}/blog/posts HTTP/1.1
+Content-Type: application/json
+
+
+### UPDATE POST
+
+PUT {{host}}/blog/post/4
+Content-Type: application/json
+Authorization: Bearer {{access-token}}
+
+{
+ "title": "Dummy Data 2",
+ "body": "ullamco. Est nisi exercitation sit culpa ea."
+}
+
+
+### DELETE POST
+
+DELETE {{host}}/blog/post/5
+Content-Type: application/json
+Authorization: Bearer {{access-token}}

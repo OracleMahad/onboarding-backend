@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: onboarding-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: mydb_db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./src/database/setup_db.sql:/docker-entrypoint-initdb.d/setup_db.sql
+      - OnboardingProjectMysql:/var/lib/mysql
+
+volumes:
+  OnboardingProjectMysql:
