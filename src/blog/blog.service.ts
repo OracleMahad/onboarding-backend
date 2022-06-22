@@ -5,8 +5,9 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Post as BlogPost, User } from '@prisma/client';
-import { PrismaService } from 'src/shared/services/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { CreatePostDto } from './dto/createPost.dto';
+import { FindPostsDto } from './dto/findPosts.dto';
 
 @Injectable()
 export class BlogService {
@@ -82,13 +83,23 @@ export class BlogService {
     return post;
   }
 
-  async findPosts(): Promise<BlogPost[]> {
+  async findPosts(queryDto: FindPostsDto): Promise<BlogPost[]> {
+    const { page = 1, limit = 10, q } = queryDto;
+    console.log(queryDto);
+    const offset = (page - 1) * limit;
+
     return this.prismaService.post.findMany({
+      // select: {}, //set attributes
+      where: {
+        title: q ? { contains: `%${q}%` } : {},
+      },
+      skip: offset,
+      take: limit,
       orderBy: {
         createdAt: 'desc',
       },
       include: {
-        author: true,
+        author: { select: { id: true, email: true, username: true } },
       },
     });
   }

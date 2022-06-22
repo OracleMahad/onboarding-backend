@@ -10,15 +10,25 @@ import { LoginPayloadDto } from './dto/loginPayload.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { User } from '@prisma/client';
-import { PrismaService } from 'src/shared/services/prisma.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { UtilsProvider } from 'src/providers/utils.provider';
+import { EmailService } from 'src/mail/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     public readonly jwtService: JwtService,
     public readonly prismaService: PrismaService,
+    public readonly emailService: EmailService,
   ) {}
+
+  private async checkUserExistsByEmail(email: string): Promise<boolean> {
+    const exUser = await this.prismaService.user.findUnique({
+      where: { email },
+      select: { email: true },
+    });
+    return Boolean(exUser);
+  }
 
   async createToken(user: User): Promise<TokenDto> {
     return new TokenDto({
@@ -81,5 +91,13 @@ export class AuthService {
 
   async getProfile(user: User) {
     return user;
+  }
+
+  async sendAuthMail() {
+    console.log('');
+  }
+
+  async verifyAuthMail() {
+    console.log('');
   }
 }

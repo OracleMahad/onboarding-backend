@@ -52,6 +52,21 @@ Authorization: Bearer {{access-token}}
 GET {{host}}/blog/posts HTTP/1.1
 Content-Type: application/json
 
+### GET POSTS
+
+GET {{host}}/blog/posts?q=d HTTP/1.1
+Content-Type: application/json
+
+### GET POSTS
+
+GET {{host}}/blog/posts?q=dsf HTTP/1.1
+Content-Type: application/json
+
+
+### GET POSTS
+
+GET {{host}}/blog/posts?page=2&limit=3 HTTP/1.1
+Content-Type: application/json
 
 ### UPDATE POST
 

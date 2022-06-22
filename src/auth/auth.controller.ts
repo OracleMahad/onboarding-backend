@@ -21,9 +21,23 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
+  @Post('email-send')
+  async sendEmail(@Body() params: any) {
+    console.log(params);
+  }
+
+  @Post('email-verify')
+  async verifyEmail(@Body() params: any) {
+    console.log(params);
+  }
+
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getProfile(@AuthUser() user: User): Promise<User> {
     return this.authService.getProfile(user);
   }
+  //gen otp
+  //set otp
+  //is otp
+  //otp login
 }

@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { BlogController } from './blog.controller';
+import { BlogService } from './blog.service';
+import { PrismaService } from 'src/common/prisma.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
-import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Module({
   imports: [
@@ -20,8 +20,8 @@ import { PrismaService } from 'src/shared/services/prisma.service';
       inject: [],
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PrismaService],
-  exports: [JwtModule, AuthService],
+  controllers: [BlogController],
+  providers: [BlogService, JwtStrategy, PrismaService],
+  exports: [JwtModule, BlogService],
 })
-export class AuthModule {}
+export class BlogModule {}

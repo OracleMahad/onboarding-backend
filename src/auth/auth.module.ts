@@ -2,13 +2,15 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { BlogController } from './blog.controller';
-import { BlogService } from './blog.service';
-import { PrismaService } from 'src/shared/services/prisma.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
+import { PrismaService } from 'src/common/prisma.service';
+import { EmailModule } from '../mail/email.module';
 
 @Module({
   imports: [
+    EmailModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: () => ({
@@ -20,8 +22,8 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy';
       inject: [],
     }),
   ],
-  controllers: [BlogController],
-  providers: [BlogService, JwtStrategy, PrismaService],
-  exports: [JwtModule, BlogService],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy, PrismaService],
+  exports: [JwtModule, AuthService],
 })
-export class BlogModule {}
+export class AuthModule {}

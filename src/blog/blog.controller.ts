@@ -14,6 +14,8 @@ import { JwtAuthGuard } from 'src/guards/auth.guard';
 import { BlogService } from './blog.service';
 import { Post as BlogPost, User } from '@prisma/client';
 import { CreatePostDto } from './dto/createPost.dto';
+import { UpdatePostDto } from './dto/updatePost.dto';
+import { FindPostsDto } from './dto/findPosts.dto';
 
 @Controller('blog')
 export class BlogController {
@@ -33,7 +35,7 @@ export class BlogController {
   async updatePost(
     @AuthUser() user: User,
     @Param('id') id: string,
-    @Body() postDto: CreatePostDto,
+    @Body() postDto: UpdatePostDto,
   ): Promise<BlogPost> {
     return this.blogService.updatePost(user, id, postDto);
   }
@@ -44,8 +46,8 @@ export class BlogController {
   }
 
   @Get('posts')
-  async findPosts(): Promise<BlogPost[]> {
-    return this.blogService.findPosts();
+  async findPosts(@Query() queryDto: FindPostsDto): Promise<BlogPost[]> {
+    return this.blogService.findPosts(queryDto);
   }
 
   @Delete('post/:id')
