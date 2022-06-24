@@ -13,6 +13,7 @@ import { User } from '@prisma/client';
 import { PrismaService } from 'src/common/prisma.service';
 import { UtilsProvider } from 'src/providers/utils.provider';
 import { EmailService } from 'src/mail/email.service';
+import { RedisService } from 'src/common/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
     public readonly jwtService: JwtService,
     public readonly prismaService: PrismaService,
     public readonly emailService: EmailService,
+    public readonly redisService: RedisService,
   ) {}
 
   private async checkUserExistsByEmail(email: string): Promise<boolean> {
@@ -42,6 +44,7 @@ export class AuthService {
   }
 
   async validateUser(loginDto: LoginDto): Promise<User> {
+    //black list check
     const user = await this.prismaService.user.findUnique({
       where: {
         email: loginDto.email,
@@ -82,6 +85,8 @@ export class AuthService {
       data: {
         email: registerDto.email,
         username: registerDto.username,
+        otpSecret: null,
+        profileImg: null,
         password: UtilsProvider.generateHash(registerDto.password),
       },
     });

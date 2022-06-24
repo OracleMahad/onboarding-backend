@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
 import { PrismaService } from 'src/common/prisma.service';
 import { EmailModule } from '../mail/email.module';
+import { RedisService } from 'src/common/redis.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -23,7 +25,13 @@ import { EmailModule } from '../mail/email.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PrismaService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PrismaService,
+    RedisService,
+    ConfigService,
+  ],
   exports: [JwtModule, AuthService],
 })
 export class AuthModule {}
