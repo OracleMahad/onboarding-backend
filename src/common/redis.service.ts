@@ -29,6 +29,13 @@ export class RedisService {
     this.client.set,
   ).bind(this.client);
 
+  setRedisTemporarily: (
+    key: string,
+    value: string,
+    EX: string, //set 'EX'
+    duration: number, //ex 24h 60 * 60 * 24
+  ) => Promise<string | null> = promisify(this.client.set).bind(this.client);
+
   delRedis: (key: string) => Promise<number> = promisify(this.client.del).bind(
     this.client,
   );
